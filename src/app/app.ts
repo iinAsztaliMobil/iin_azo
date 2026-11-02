@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
+import { AuthService } from './shared/auth-service';
 
 @Component({
   imports: [RouterOutlet, RouterLink],
@@ -8,5 +9,11 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('azo');
+
+  auth = inject(AuthService)
+
+  logout() {
+    console.log('Kilépés...')
+    this.auth.logout()
+  }
 }

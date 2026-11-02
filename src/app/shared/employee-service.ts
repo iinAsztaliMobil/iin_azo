@@ -8,7 +8,9 @@ export class EmployeeService {
 
     getEmployees() {
         const url = this.host + 'employees'
-        return this.http.get(url)
+        const token = localStorage.getItem('token')
+        const headers = { Authorization: `Bearer ${token}`}
+        return this.http.get(url, { headers })
     }
 
     createEmployee(employee: any) {

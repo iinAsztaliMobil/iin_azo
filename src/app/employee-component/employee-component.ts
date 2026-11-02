@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../shared/employee-service';
 
@@ -13,7 +13,8 @@ export class EmployeeComponent {
   builder = inject(FormBuilder)
   employeeApi = inject(EmployeeService)
 
-  employees!: any[]
+  //employees!: any[]
+  employees = signal<any[]>([])
 
   employeeForm = this.builder.group({
     name: [''],
@@ -25,14 +26,16 @@ export class EmployeeComponent {
   visibleModal = false
 
   ngOnInit() {
+    console.log('kezdődik...')
     this.getEmployees()
   }
-
+  
   getEmployees() {
     this.employeeApi.getEmployees().subscribe({
       next: (res: any) => {
         console.log(res)
-        this.employees = res.data
+        // this.employees = res.data
+        this.employees.set(res.data)
       },
       error: () => {}
     })

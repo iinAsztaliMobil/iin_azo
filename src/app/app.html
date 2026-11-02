@@ -1,6 +1,12 @@
 <nav class="nav justify-content-center">
-  <a routerLink="login" class="nav-link">Belépés</a>
-  <a routerLink="employee" class="nav-link">Dolgozók</a>
+
+  @if(auth.isAuthentiaced()) {
+    <a routerLink="employee" class="nav-link">Dolgozók</a>
+    <a (click)="logout()" class="nav-link logout">Kilépés</a>
+  }@else {
+    <a routerLink="login" class="nav-link">Belépés</a>
+  }
+
 </nav>
 <div class="container">
   <router-outlet></router-outlet>
