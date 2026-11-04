@@ -1,6 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../shared/employee-service';
+import { Position } from '../interfaces/position';
+import { PositionService } from '../shared/position-service';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -12,9 +14,11 @@ export class EmployeeComponent {
 
   builder = inject(FormBuilder)
   employeeApi = inject(EmployeeService)
+  positionsApi = inject(PositionService)
 
   //employees!: any[]
   employees = signal<any[]>([])
+  positions = signal<Position[]>([])
 
   employeeForm = this.builder.group({
     name: [''],
@@ -28,6 +32,7 @@ export class EmployeeComponent {
   ngOnInit() {
     console.log('kezdődik...')
     this.getEmployees()
+    this.getPositions()
   }
   
   getEmployees() {
@@ -60,6 +65,16 @@ export class EmployeeComponent {
       error: (err) => {
         console.error(err)
       }
+    })
+  }
+
+  getPositions() {
+    this.positionsApi.getPositions().subscribe({
+      next: (res: any) => {
+        console.log(res.data)
+        this.positions.set(res.data)
+      },
+      error: () => {}
     })
   }
 }
