@@ -1,1 +1,4 @@
+ujraklonozni a backendet kulonben beszarik
+https://github.com/oktatapi/humerlar
+
 ng g p /dshared/pipe/position-name

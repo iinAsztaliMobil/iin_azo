@@ -29,6 +29,7 @@ export class EmployeeComponent {
   })
 
   visibleModal = false
+  addmode = true
 
   ngOnInit() {
     console.log('kezdődik...')

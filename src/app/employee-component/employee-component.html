@@ -37,7 +37,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">
+              {{addmode ? 'Hozzáadás' : 'Módosítás'}}
+            </h5>
+            
             <button type="button" class="btn-close" 
             data-bs-dismiss="modal" aria-label="Close"
             (click)="toggleModal()"></button>
@@ -47,6 +50,13 @@
 
             <form [formGroup]="employeeForm" 
             (ngSubmit)="saveEmployee()" id="employeeForm">
+              @if(!addmode){
+                <div>
+                      <label for="id" class="form-label">Id</label>
+                      <input type="text" class="form-control"
+                      formControlName="id" id="id">
+                  </div>
+              }
                 <div>
                     <label for="name" class="form-label">Név</label>
                     <input type="text" class="form-control"
@@ -64,8 +74,13 @@
                 </div>
                 <div>
                     <label for="positionId" class="form-label">Beosztás</label>
-                    <input type="text" class="form-control"
-                    formControlName="positionId" id="positionId">
+                    <!-- <input type="text" class="form-control"
+                    formControlName="positionId" id="positionId"> -->
+                    <select formControlName="positionId" id="positionId" class="form-select">
+                      @for(pos of positions(); track pos.id){
+                        <option value="{{pos.id}}">{{pos.name}}</option>
+                      }
+                    </select>
                 </div>
             </form>
 

@@ -2,3 +2,44 @@
 .logout {
     cursor: pointer;
 }
+
+.nav {
+  background-color: #fdf2f7;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #f5c2c7;
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  color: #842029;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #d63384;
+  background-color: #f8d7da;
+}
+
+.nav-link.active {
+  color: #fff;
+  background-color: #e68bbe;
+}
+
+.nav-link.logout {
+  color: #dc3545;
+}
+
+.nav-link.logout:hover {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.container{
+    padding: 10px;
+}
