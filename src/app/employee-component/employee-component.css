@@ -92,13 +92,14 @@ thead{
   margin-bottom: 0.25rem;
 }
 
+
 .form-control,
 .form-select {
   border: 1px solid #f5c2c7;
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   transition: all 0.15s ease-in-out;
-  background-color: #fff;
+  background-color: #ffd2f0;
 }
 
 .form-control:hover,

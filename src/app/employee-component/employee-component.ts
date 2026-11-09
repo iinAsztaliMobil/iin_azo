@@ -4,6 +4,7 @@ import { EmployeeService } from '../shared/employee-service';
 import { Position } from '../interfaces/position';
 import { PositionService } from '../shared/position-service';
 import { PositionNamePipe } from '../shared/pipe/position-name-pipe';
+import { Employee } from '../interfaces/employee';
 
 @Component({
   imports: [ReactiveFormsModule, PositionNamePipe],
@@ -22,6 +23,7 @@ export class EmployeeComponent {
   positions = signal<Position[]>([])
 
   employeeForm = this.builder.group({
+    id: [''],
     name: [''],
     city: [''],
     salary: [''],
@@ -29,44 +31,23 @@ export class EmployeeComponent {
   })
 
   visibleModal = false
-  addmode = true
+  addMode = true
 
   ngOnInit() {
     console.log('kezdődik...')
     this.getEmployees()
     this.getPositions()
   }
+
   
   getEmployees() {
     this.employeeApi.getEmployees().subscribe({
       next: (res: any) => {
         console.log(res)
-        // this.employees = res.data
+
         this.employees.set(res.data)
       },
       error: () => {}
-    })
-  }
-
-  toggleModal() {
-    this.visibleModal = ! this.visibleModal
-  }
-
-  saveEmployee() {
-    console.log("Mentés...")
-    this.createEmployee()
-    this.toggleModal()
-  }
-
-  createEmployee() {
-    // szogáltatás hívása
-    this.employeeApi.createEmployee(this.employeeForm.value).subscribe({
-      next: (data) => {
-        console.log(data)
-      },
-      error: (err) => {
-        console.error(err)
-      }
     })
   }
 
@@ -80,11 +61,98 @@ export class EmployeeComponent {
     })
   }
 
-  onclickEdit(emp: any){
-    console.log('edit ' + emp.name);
+
+  
+  saveEmployee() {          
+    if (this.addMode) {
+      this.createEmployee();
+    } else {
+      this.updateEmployee();
+    }
   }
 
-  deleteEmployee(id: any){
-    
+  createEmployee() {
+    const v = this.employeeForm.value;
+    const payload = {
+      name: v.name,
+      city: v.city,
+      salary: Number(v.salary),
+      positionId: Number(v.positionId)
+    };
+
+    this.employeeApi.createEmployee(payload).subscribe({
+      next: () => {
+        this.getEmployees();   // the new row appears with its real id
+        this.hideModal();
+      },
+      error: (err) => console.error('Hiba létrehozáskor:', err)
+    });
   }
+
+  updateEmployee() {
+    const v = this.employeeForm.value;
+    const payload = {
+      id: Number(v.id),
+      name: v.name,
+      city: v.city,
+      salary: Number(v.salary),
+      positionId: Number(v.positionId)
+    };
+
+    this.employeeApi.updateEmployee(payload).subscribe({
+      next: () => {
+        this.getEmployees();
+        this.hideModal();
+      },
+      error: (err) => console.error('Hiba módosításkor:', err)
+    });
+  }
+
+
+  deleteEmployee(id: number) {
+    this.employeeApi.deleteEmployee(id).subscribe({
+      next: () => this.getEmployees(),
+      error: (err) => console.error('Hiba a törlés során:', err)
+    });
+  }
+
+
+
+
+  onclickEdit(emp: Employee){
+    console.log('editing: ' + emp.name);
+    this.addMode = false;
+
+    this.employeeForm.patchValue({
+      id: String(emp.id),
+      name: emp.name,
+      city: emp.city,
+      salary: String(emp.salary),
+      positionId: String(emp.positionId)
+    });
+
+    this.visibleModal = true;
+
+  }
+
+  onClickAdd() {
+    this.addMode = true;
+    this.employeeForm.reset();
+    this.visibleModal = true;
+  }
+
+
+
+  hideModal(){
+    this.visibleModal= false;
+    this.addMode = true;
+    this.employeeForm.reset();
+  }
+
+  toggleModal() {
+    this.visibleModal = ! this.visibleModal
+  }
+  
+
+
 }

@@ -1,6 +1,6 @@
 <h2>Dolgozók</h2>
 
-<button class="btn btn-primary" (click)="toggleModal()">Hozzáad</button>
+<button class="btn btn-primary" (click)="onClickAdd()">Hozzáad</button>
 
 
 <table class="table table-striped">
@@ -54,19 +54,19 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
-              {{addmode ? 'Hozzáadás' : 'Módosítás'}}
+              {{addMode ? 'Hozzáadás' : 'Módosítás'}}
             </h5>
             
             <button type="button" class="btn-close" 
             data-bs-dismiss="modal" aria-label="Close"
-            (click)="toggleModal()"></button>
+            (click)="hideModal()"></button>
           </div>
           <div class="modal-body">
             
 
             <form [formGroup]="employeeForm" 
-            (ngSubmit)="saveEmployee()" id="employeeForm">
-              @if(!addmode){
+            (ngSubmit)="updateEmployee()" id="employeeForm">
+              @if(!addMode){
                 <div>
                       <label for="id" class="form-label">Id</label>
                       <input type="text" class="form-control"
@@ -105,10 +105,10 @@
           <div class="modal-footer">
             <button type="button" 
             class="btn btn-secondary" 
-            (click)="toggleModal()">Bezárás</button>
+            (click)="hideModal()">Bezárás</button>
             
-            <button type="submit" class="btn btn-primary"
-            form="employeeForm">Mentés</button>
+            <button type="button" class="btn btn-primary" (click)="saveEmployee()"
+            >Mentés</button>
           </div>
         </div>
       </div>
