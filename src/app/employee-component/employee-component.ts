@@ -79,4 +79,12 @@ export class EmployeeComponent {
       error: () => {}
     })
   }
+
+  onclickEdit(emp: any){
+    console.log('edit ' + emp.name);
+  }
+
+  deleteEmployee(id: any){
+    
+  }
 }
