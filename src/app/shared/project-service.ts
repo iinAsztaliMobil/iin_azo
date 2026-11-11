@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
+import { Project } from '../interfaces/project';
 
 @Service()
 export class ProjectService {
@@ -16,12 +17,12 @@ export class ProjectService {
         return this.http.get(this.host, { headers : this.headers })
     }
 
-    createProjects(project: any){
+    createProjects(project: Project){
         const url = `${this.host}`
         return this.http.post(url, project, {headers: this.headers})
     }
 
-    updateProjects(project: any){
+    updateProjects(project: Project){
         const url = `${this.host}/${project.id}`
         return this.http.put(url,project,{headers : this.headers})
     }

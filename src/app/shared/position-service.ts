@@ -16,7 +16,7 @@ export class PositionService {
         return this.http.get(this.host, { headers : this.headers })
     }
 
-    createPositions(position: any){
+    createPositions(position: Position){
         const url = `${this.host}`
         return this.http.post(url, position, {headers: this.headers})
     }
