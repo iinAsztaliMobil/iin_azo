@@ -7,30 +7,28 @@ export class ProjectService {
     http = inject(HttpClient)
     host = 'http://localhost:8000/api/projects'
 
+    private get headers() {
+        const token = localStorage.getItem('token');
+        return { Authorization: `Bearer ${token}` };
+    }
+
     getProjects() {
-        const token = localStorage.getItem('token')
-        const headers = { Authorization: `Bearer ${token}`}
-        return this.http.get(this.host, { headers })
+        return this.http.get(this.host, { headers : this.headers })
     }
 
     createProjects(project: any){
         const url = `${this.host}`
-        const token = localStorage.getItem('token')
-        const headers = { Authorization :`Bearer${token}`}
-        return this.http.post(url, project, {headers})
+        return this.http.post(url, project, {headers: this.headers})
     }
 
     updateProjects(project: any){
         const url = `${this.host}/${project.id}`
-        const token = localStorage.getItem('token')
-        const headers = {Authorization : `Bearer${token}`}
-        return this.http.put(url,project,{headers})
+        return this.http.put(url,project,{headers : this.headers})
     }
 
     deleteProjects(id: number){
         const url = `${this.host}/${id}`
-        const token = localStorage.getItem('token')
-        const headers = { Authorization : `Bearer${token}`}
-        return this.http.delete(url,{headers})
+        return this.http.delete(url,{headers : this.headers})
     }
+
 }
