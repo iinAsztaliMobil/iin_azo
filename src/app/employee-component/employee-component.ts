@@ -19,15 +19,15 @@ export class EmployeeComponent {
   positionsApi = inject(PositionService)
 
   //employees!: any[]
-  employees = signal<any[]>([])
+  employees = signal<Employee[]>([])
   positions = signal<Position[]>([])
 
   employeeForm = this.builder.group({
-    id: [''],
+    id: [null as number | null],
     name: [''],
     city: [''],
-    salary: [''],
-    positionId: ['']
+    salary: [null as number | null],
+    positionId: [null as number | null]
   })
 
   visibleModal = false
@@ -72,15 +72,17 @@ export class EmployeeComponent {
   }
 
   createEmployee() {
-    const v = this.employeeForm.value;
-    const payload = {
-      name: v.name,
-      city: v.city,
-      salary: Number(v.salary),
-      positionId: Number(v.positionId)
-    };
 
-    this.employeeApi.createEmployee(payload).subscribe({
+    const emp = this.employeeForm.getRawValue() as Employee;
+    // const v = this.employeeForm.value;
+    // const payload = {
+    //   name: v.name,
+    //   city: v.city,
+    //   salary: Number(v.salary),
+    //   positionId: Number(v.positionId)
+    // };
+
+    this.employeeApi.createEmployee(emp).subscribe({
       next: () => {
         this.getEmployees();   // the new row appears with its real id
         this.hideModal();
@@ -90,16 +92,9 @@ export class EmployeeComponent {
   }
 
   updateEmployee() {
-    const v = this.employeeForm.value;
-    const payload = {
-      id: Number(v.id),
-      name: v.name,
-      city: v.city,
-      salary: Number(v.salary),
-      positionId: Number(v.positionId)
-    };
+    const emp = this.employeeForm.getRawValue() as Employee;
 
-    this.employeeApi.updateEmployee(payload).subscribe({
+    this.employeeApi.updateEmployee(emp).subscribe({
       next: () => {
         this.getEmployees();
         this.hideModal();
@@ -124,11 +119,11 @@ export class EmployeeComponent {
     this.addMode = false;
 
     this.employeeForm.patchValue({
-      id: String(emp.id),
+      id: emp.id,
       name: emp.name,
       city: emp.city,
-      salary: String(emp.salary),
-      positionId: String(emp.positionId)
+      salary: emp.salary,
+      positionId: emp.positionId
     });
 
     this.visibleModal = true;

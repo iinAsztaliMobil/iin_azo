@@ -12,4 +12,25 @@ export class PositionService {
         return this.http.get<Position[]>(url)
     }
 
+    createPositions(position: any){
+        const url = `${this.host}/positions`
+        const token = localStorage.getItem('token')
+        const headers = { Authorization :`Bearer${token}`}
+        return this.http.post(url, position, {headers})
+    }
+
+    updatePositions(position: any){
+        const url = `${this.host}/positions/${position.id}`
+        const token = localStorage.getItem('token')
+        const headers = {Authorization : `Bearer${token}`}
+        return this.http.put(url,position,{headers})
+    }
+
+    deletePositions(id: number){
+        const url = `${this.host}/positions/${id}`
+        const token = localStorage.getItem('token')
+        const headers = { Authorization : `Bearer${token}`}
+        return this.http.delete(url,{headers})
+    }
+
 }
